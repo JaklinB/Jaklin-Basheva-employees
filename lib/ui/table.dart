@@ -13,53 +13,50 @@ class TableLayout extends StatefulWidget {
 }
 
 class _TableLayoutState extends State<TableLayout> {
-  List<Map<String, dynamic>> getCommonProjects() {
-    List<Map<String, dynamic>> commonProjects = [];
+ List<Map<String, dynamic>> getCommonProjects() {
+  List<Map<String, dynamic>> commonProjects = [];
 
-    // Group project data by project ID
-    Map<int, List<Employee>> projectGroups = {};
-    for (var project in widget.employeeList) {
-      if (!projectGroups.containsKey(project.projectId)) {
-        projectGroups[project.projectId] = [];
-      }
-      projectGroups[project.projectId]!.add(project);
+  // Group project data by project ID
+  Map<int, List<Employee>> projectGroups = {};
+  for (var project in widget.employeeList) {
+    if (!projectGroups.containsKey(project.projectId)) {
+      projectGroups[project.projectId] = [];
     }
+    projectGroups[project.projectId]!.add(project);
+  }
 
-    // Find common projects for each employee pair
-    for (var projectId in projectGroups.keys) {
-      List<Employee> projects = projectGroups[projectId]!;
-      for (var i = 0; i < projects.length - 1; i++) {
-        for (var j = i + 1; j < projects.length; j++) {
-          if (projects[i].empId != projects[j].empId) {
-            // Calculate days worked
-            int daysWorked;
-            if (projects[i].dateTo == null) {
-              daysWorked =
-                  DateTime.now().difference(projects[i].dateFrom).inDays;
-            } else if (projects[j].dateTo == null) {
-              daysWorked =
-                  DateTime.now().difference(projects[j].dateFrom).inDays;
-            } else {
-              daysWorked =
-                  projects[j].dateTo!.difference(projects[i].dateFrom).inDays;
-            }
+  for (var projectId in projectGroups.keys) {
+    List<Employee> projects = projectGroups[projectId]!;
+    for (var i = 0; i < projects.length - 1; i++) {
+      for (var j = i + 1; j < projects.length; j++) {
+        if (projects[i].empId != projects[j].empId) {
+          int daysWorked = 0;
+          DateTime start = projects[i].dateFrom.compareTo(projects[j].dateFrom) > 0
+              ? projects[i].dateFrom
+              : projects[j].dateFrom;
+          DateTime? end = projects[i].dateTo != null && projects[j].dateTo != null
+              ? projects[i].dateTo!.compareTo(projects[j].dateTo!) > 0
+                  ? projects[j].dateTo
+                  : projects[i].dateTo
+              : projects[i].dateTo ?? projects[j].dateTo;
 
-            // Add common project to list
-            commonProjects.add({
-              'empId1': projects[i].empId,
-              'empId2': projects[j].empId,
-              'projectId': projectId,
-              'daysWorked': daysWorked,
-            });
+          if (end != null) {
+            daysWorked = end.difference(start).inDays;
           }
+
+          commonProjects.add({
+            'empId1': projects[i].empId,
+            'empId2': projects[j].empId,
+            'projectId': projectId,
+            'daysWorked': daysWorked < 0 ? 0 : daysWorked,
+          });
         }
       }
     }
-
-    print(commonProjects);
-
-    return commonProjects;
   }
+
+  return commonProjects;
+}
 
   @override
   Widget build(BuildContext context) {

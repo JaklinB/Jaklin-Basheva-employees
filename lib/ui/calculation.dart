@@ -7,7 +7,6 @@ import 'package:file_picker/file_picker.dart';
 
 import '../helpers/theme_helper.dart';
 import '../models/employee.dart';
-import 'package:intl/intl.dart';
 
 class CalculationScreen extends StatefulWidget {
   const CalculationScreen({super.key});
@@ -20,31 +19,27 @@ class _CalculationScreenState extends State<CalculationScreen> {
   List<List<dynamic>> data = List.empty(growable: true);
   List<Employee> employeeList = List.empty(growable: true);
 
-  Future<void> loadAsset() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      File file = File(result.files.single.path!);
-      List<int> bytes = await file.readAsBytes();
-      List<List<dynamic>> csvTable =
-          const CsvToListConverter(fieldDelimiter: ';')
-              .convert(utf8.decode(bytes));
-      print(csvTable);
-      employeeList = List<Employee>.from(
-        csvTable.sublist(1).map(
-              (row) => Employee(
-                empId: row[0],
-                projectId: row[1],
-                dateFrom: DateTime.parse(row[2]),
-                dateTo:
-                    row[3] != null ? DateTime.tryParse(row[3]) : DateTime.now(),
-              ),
-            ),
-      );
-      setState(() {
-        data = csvTable;
-      });
-    }
+Future<void> loadAsset() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles();
+  if (result != null) {
+    File file = File(result.files.single.path!);
+    List<int> bytes = await file.readAsBytes();
+    List<List<dynamic>> csvTable =
+        const CsvToListConverter(fieldDelimiter: ';')
+            .convert(utf8.decode(bytes));
+    print(csvTable);
+    employeeList = List<Employee>.from(
+      csvTable.sublist(1).map(
+        (row) => Employee.fromCsv(
+          '${row[0]};${row[1]};${row[2]};${row[3]}',
+        ),
+      ),
+    );
+    setState(() {
+      data = csvTable;
+    });
   }
+}
 
   @override
   Widget build(BuildContext context) {

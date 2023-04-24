@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   csv: ^5.0.1
   intl: ^0.18.1
+  file_picker: ^5.2.11
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +56,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - lib/assets/csv_logo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

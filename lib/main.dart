@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:employees/helpers/theme_helper.dart';
-import 'package:employees/ui/table.dart';
+import 'package:employees/ui/calculation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TableLayout()),
+                  MaterialPageRoute(builder: (context) => const CalculationScreen()),
                 );
               },
               icon: const Icon(

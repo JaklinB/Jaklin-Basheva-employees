@@ -13,42 +13,89 @@ class TableLayout extends StatefulWidget {
 }
 
 class _TableLayoutState extends State<TableLayout> {
+  List<Map<String, dynamic>> getCommonProjects() {
+    List<Map<String, dynamic>> commonProjects = [];
+
+    // Group project data by project ID
+    Map<int, List<Employee>> projectGroups = {};
+    for (var project in widget.employeeList) {
+      if (!projectGroups.containsKey(project.projectId)) {
+        projectGroups[project.projectId] = [];
+      }
+      projectGroups[project.projectId]!.add(project);
+    }
+
+    // Find common projects for each employee pair
+    for (var projectId in projectGroups.keys) {
+      List<Employee> projects = projectGroups[projectId]!;
+      for (var i = 0; i < projects.length - 1; i++) {
+        for (var j = i + 1; j < projects.length; j++) {
+          if (projects[i].empId != projects[j].empId) {
+            // Calculate days worked
+            int daysWorked;
+            if (projects[i].dateTo == null) {
+              daysWorked =
+                  DateTime.now().difference(projects[i].dateFrom).inDays;
+            } else if (projects[j].dateTo == null) {
+              daysWorked =
+                  DateTime.now().difference(projects[j].dateFrom).inDays;
+            } else {
+              daysWorked =
+                  projects[j].dateTo!.difference(projects[i].dateFrom).inDays;
+            }
+
+            // Add common project to list
+            commonProjects.add({
+              'empId1': projects[i].empId,
+              'empId2': projects[j].empId,
+              'projectId': projectId,
+              'daysWorked': daysWorked,
+            });
+          }
+        }
+      }
+    }
+
+    print(commonProjects);
+
+    return commonProjects;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Table(
-      // columnWidths: const {
-      //   0: FixedColumnWidth(90),
-      //   1: FixedColumnWidth(110),
-      //   2: FixedColumnWidth(120),
-      //   3: FixedColumnWidth(120),
-      // },
       border: TableBorder.all(width: 1.0),
       children: [
-        TableRow(
-          children: widget.data.first.map((header) {
-            return TableCell(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  header.toString(),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-        ...widget.employeeList.map((item) {
+        TableRow(children: [
+          buildHeaderTableCell('Employee ID #1'),
+          buildHeaderTableCell('Employee ID #2'),
+          buildHeaderTableCell('Project ID'),
+          buildHeaderTableCell('Days worked'),
+        ]),
+        ...getCommonProjects().map((project) {
           return TableRow(children: [
-            buildTableCell(item.empId.toString()),
-            buildTableCell(item.projectId.toString()),
-            buildTableCell(item.dateFrom.toString()),
-            buildTableCell(item.dateTo.toString()),
+            buildTableCell(project['empId1'].toString()),
+            buildTableCell(project['empId2'].toString()),
+            buildTableCell(project['projectId'].toString()),
+            buildTableCell(project['daysWorked'].toString()),
           ]);
         }).toList(),
       ],
+    );
+  }
+
+  Widget buildHeaderTableCell(String text) {
+    return TableCell(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 

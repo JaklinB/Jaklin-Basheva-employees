@@ -1,7 +1,9 @@
 import 'package:employees/helpers/theme_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../models/employee.dart';
+import 'components/input_bottom_sheet.dart';
 
 class TableLayout extends StatefulWidget {
   final List<Employee> employeeList;
@@ -24,25 +26,49 @@ class _TableLayoutState extends State<TableLayout> {
               style:
                   const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
           const SizedBox(height: 20),
-          Table(
-            border: TableBorder.all(width: 3, color: ThemeHelper.backgroundColor),
-            children: [
-              TableRow(children: [
-                buildHeaderTableCell('Emp ID #1'),
-                buildHeaderTableCell('Emp ID #2'),
-                buildHeaderTableCell('Project ID'),
-                buildHeaderTableCell('Days worked'),
-              ]),
-              ...getCommonProjects().map((project) {
-                return TableRow(children: [
-                  buildTableCell(project['empId1'].toString()),
-                  buildTableCell(project['empId2'].toString()),
-                  buildTableCell(project['projectId'].toString()),
-                  buildTableCell(project['daysWorked'].toString()),
-                ]);
-              }).toList(),
-            ],
-          ),
+          InkWell(
+              onTap: () => showInputData(context, [
+                          TableRow(
+                            children: [
+                              buildHeaderTableCell('EmpID'),
+                              buildHeaderTableCell('ProjectID'),
+                              buildHeaderTableCell('DateFrom'),
+                              buildHeaderTableCell('DateTo'),
+                            ],
+                          ),
+                          ...widget.employeeList.map((project) {
+                            return TableRow(
+                              children: [
+                                buildTableCell(project.empId.toString()),
+                                buildTableCell(project.projectId.toString()),
+                                buildTableCell(DateFormat('dd MMM yyyy')
+                                    .format(project.dateFrom)),
+                                buildTableCell(DateFormat('dd MMM yyyy')
+                                    .format(project.dateTo ?? DateTime.now())),
+                              ],
+                            );
+                          }).toList(),
+                        ],),
+              child: Table(
+                border: TableBorder.all(
+                    width: 3, color: ThemeHelper.backgroundColor),
+                children: [
+                  TableRow(children: [
+                    buildHeaderTableCell('Emp ID #1'),
+                    buildHeaderTableCell('Emp ID #2'),
+                    buildHeaderTableCell('Project ID'),
+                    buildHeaderTableCell('Days worked'),
+                  ]),
+                  ...getCommonProjects().map((project) {
+                    return TableRow(children: [
+                      buildTableCell(project['empId1'].toString()),
+                      buildTableCell(project['empId2'].toString()),
+                      buildTableCell(project['projectId'].toString()),
+                      buildTableCell(project['daysWorked'].toString()),
+                    ]);
+                  }).toList(),
+                ],
+              )),
         ],
       ),
     );
@@ -167,4 +193,6 @@ class _TableLayoutState extends State<TableLayout> {
               style: const TextStyle(fontSize: 20.0),
             )));
   }
+
+ 
 }

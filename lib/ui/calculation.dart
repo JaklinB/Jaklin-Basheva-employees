@@ -100,12 +100,12 @@ class _CalculationScreenState extends State<CalculationScreen> {
                 ListTile(
                   title: Text('EmpID'),
                   leading: Icon(Icons.person),
-                  trailing: Text('Employee ID'),
+                  trailing: Text('Employee ID (int)'),
                 ),
                 ListTile(
                   title: Text('ProjectID'),
                   leading: Icon(Icons.work),
-                  trailing: Text('Project ID'),
+                  trailing: Text('Project ID (int)'),
                 ),
                 ListTile(
                   title: Text('DateFrom'),

@@ -12,7 +12,7 @@ void showInputData(BuildContext context, List<TableRow> tableRows) {
     ),
     builder: (context) {
       return Container(
-        height: MediaQuery.of(context).size.height - 250,
+        height: MediaQuery.of(context).size.height * 0.8,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           color: Colors.white,

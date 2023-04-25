@@ -29,13 +29,18 @@ class Employee {
   }
 
   static DateTime _parseDate(String dateStr) {
-    for (final format in DateHelper.dateFormats) {
-      try {
-        return DateFormat(format).parse(dateStr);
-      } catch (e) {
-        // print(e);
+    if (dateStr.contains('NULL')) {
+      return DateTime.now();
+    } else {
+      for (final format in DateHelper.dateFormats) {
+        try {
+          return DateFormat(format).parse(dateStr);
+        } catch (e) {
+          // print(e);
+        }
       }
     }
+
     throw Exception('Invalid date format: $dateStr');
   }
 }

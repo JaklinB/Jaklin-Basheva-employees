@@ -1,3 +1,4 @@
+import 'package:employees/helpers/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 import '../models/employee.dart';
@@ -24,7 +25,7 @@ class _TableLayoutState extends State<TableLayout> {
                   const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
           const SizedBox(height: 20),
           Table(
-            border: TableBorder.all(width: 1.0),
+            border: TableBorder.all(width: 3, color: ThemeHelper.backgroundColor),
             children: [
               TableRow(children: [
                 buildHeaderTableCell('Emp ID #1'),

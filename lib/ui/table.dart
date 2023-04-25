@@ -100,29 +100,35 @@ class _TableLayoutState extends State<TableLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(getPairWorkedLongest(getCommonProjects())),
-        Table(
-          border: TableBorder.all(width: 1.0),
-          children: [
-            TableRow(children: [
-              buildHeaderTableCell('Employee ID #1'),
-              buildHeaderTableCell('Employee ID #2'),
-              buildHeaderTableCell('Project ID'),
-              buildHeaderTableCell('Days worked'),
-            ]),
-            ...getCommonProjects().map((project) {
-              return TableRow(children: [
-                buildTableCell(project['empId1'].toString()),
-                buildTableCell(project['empId2'].toString()),
-                buildTableCell(project['projectId'].toString()),
-                buildTableCell(project['daysWorked'].toString()),
-              ]);
-            }).toList(),
-          ],
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Text(getPairWorkedLongest(getCommonProjects()),
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 20),
+          Table(
+            border: TableBorder.all(width: 1.0),
+            children: [
+              TableRow(children: [
+                buildHeaderTableCell('Employee ID #1'),
+                buildHeaderTableCell('Employee ID #2'),
+                buildHeaderTableCell('Project ID'),
+                buildHeaderTableCell('Days worked'),
+              ]),
+              ...getCommonProjects().map((project) {
+                return TableRow(children: [
+                  buildTableCell(project['empId1'].toString()),
+                  buildTableCell(project['empId2'].toString()),
+                  buildTableCell(project['projectId'].toString()),
+                  buildTableCell(project['daysWorked'].toString()),
+                ]);
+              }).toList(),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

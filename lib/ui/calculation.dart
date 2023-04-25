@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 
 import '../helpers/theme_helper.dart';
 import '../models/employee.dart';
+import 'components/button.dart';
 
 class CalculationScreen extends StatefulWidget {
   const CalculationScreen({super.key});
@@ -18,6 +19,29 @@ class CalculationScreen extends StatefulWidget {
 class _CalculationScreenState extends State<CalculationScreen> {
   List<List<dynamic>> data = List.empty(growable: true);
   List<Employee> employeeList = List.empty(growable: true);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: AppButton(
+        icon: Icons.upload,
+        text: "Upload",
+        onPressed: () async {
+          await loadAsset();
+        },
+      ),
+      appBar: AppBar(
+        backgroundColor: ThemeHelper.backgroundColor,
+        title: const Text('Employees',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25)),
+      ),
+      body: SingleChildScrollView(
+          child: data.isNotEmpty
+              ? TableLayout(employeeList: employeeList, data: data)
+              : buildRequirements()),
+    );
+  }
 
   Future<void> loadAsset() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -42,44 +66,6 @@ class _CalculationScreenState extends State<CalculationScreen> {
         data = csvTable;
       });
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(20),
-          backgroundColor: ThemeHelper.backgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 20.0,
-          ),
-        ),
-        onPressed: () async {
-          await loadAsset();
-        },
-        icon: const Icon(
-          Icons.upload,
-          size: 30,
-        ),
-        label: const Text("Upload",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700)),
-      ),
-      appBar: AppBar(
-        backgroundColor: ThemeHelper.backgroundColor,
-        title: const Text('Employees',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25)),
-      ),
-      body: SingleChildScrollView(
-          child: data.isNotEmpty
-              ? TableLayout(employeeList: employeeList, data: data)
-              : buildRequirements()),
-    );
   }
 
   Widget buildRequirements() {

@@ -21,6 +21,11 @@ https://user-images.githubusercontent.com/92172206/234205878-90bf7659-a7ea-442a-
 
 https://user-images.githubusercontent.com/92172206/234205892-7bfb2a28-f325-4ea5-bc23-3f023eecf4eb.mov
 
+4) [string as date.csv](https://github.com/JaklinB/Jaklin-Basheva-employees/files/11321096/string.as.date.csv)
+
+https://user-images.githubusercontent.com/92172206/234238122-a3777627-27ca-4210-abcf-de8721ac4644.mov
+
+
 ## Additional functionality
 When the user clicks on the table, they can see the input data that has been submitted.
 

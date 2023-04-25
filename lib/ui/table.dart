@@ -83,18 +83,26 @@ class _TableLayoutState extends State<TableLayout> {
     }
 
     if (maxPairs.length == 1) {
-      List<String> empIds = maxPairs[0].split('-');
-      return 'Employees ${empIds[0]} and ${empIds[1]} worked the most time together: ${maxTime} days';
+      if (maxTime == 0) {
+        return 'No pair of employees worked together on any projects.';
+      } else {
+        List<String> empIds = maxPairs[0].split('-');
+        return 'Employees ${empIds[0]} and ${empIds[1]} worked the most time together: $maxTime days';
+      }
     } else if (maxPairs.length > 1) {
       List<String> pairMessages = [];
       for (var empPair in maxPairs) {
-        List<String> empIds = empPair.split('-');
-        pairMessages.add(
-            'Employees ${empIds[0]} and ${empIds[1]}: ${employeePairs[empPair]} days');
+        if (employeePairs[empPair] == 0) {
+          return 'No pair of employees worked together on any projects.';
+        } else {
+          List<String> empIds = empPair.split('-');
+          pairMessages.add(
+              'Employees ${empIds[0]} and ${empIds[1]}: ${employeePairs[empPair]} days');
+        }
       }
       return 'There is more than one pair of employees that worked the most time together:\n${pairMessages.join('\n')}';
     } else {
-      return 'No pair of employees worked together on any projects';
+      return 'No pair of employees worked together on any projects.';
     }
   }
 

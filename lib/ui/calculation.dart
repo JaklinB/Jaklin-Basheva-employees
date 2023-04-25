@@ -4,6 +4,7 @@ import 'package:employees/ui/table.dart';
 import 'package:flutter/material.dart';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../helpers/theme_helper.dart';
 import '../models/employee.dart';
@@ -55,16 +56,29 @@ class _CalculationScreenState extends State<CalculationScreen> {
           const CsvToListConverter(fieldDelimiter: ';')
               .convert(utf8.decode(bytes));
       print(csvTable);
-      employeeList = List<Employee>.from(
-        csvTable.sublist(1).map(
-              (row) => Employee.fromCsv(
-                '${row[0]};${row[1]};${row[2]};${row[3]}',
+      try {
+        employeeList = List<Employee>.from(
+          csvTable.sublist(1).map(
+                (row) => Employee.fromCsv(
+                  '${row[0]};${row[1]};${row[2]};${row[3]}',
+                ),
               ),
-            ),
-      );
-      setState(() {
-        data = csvTable;
-      });
+        );
+        setState(() {
+          data = csvTable;
+        });
+      } catch (e) {
+        Fluttertoast.showToast(
+          msg: e.toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16,
+        );
+        Navigator.of(context).pop();
+      }
     }
   }
 

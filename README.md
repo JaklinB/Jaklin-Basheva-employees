@@ -21,6 +21,10 @@ https://user-images.githubusercontent.com/92172206/234205878-90bf7659-a7ea-442a-
 
 https://user-images.githubusercontent.com/92172206/234205892-7bfb2a28-f325-4ea5-bc23-3f023eecf4eb.mov
 
+## Additional functionality
+When the user clicks on the table, they can see the input data that has been submitted.
+
+https://user-images.githubusercontent.com/92172206/234224889-6f0fb83e-9c42-4107-83a0-22a5fe38488e.mov
 
 
 

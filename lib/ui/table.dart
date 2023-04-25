@@ -27,8 +27,8 @@ class _TableLayoutState extends State<TableLayout> {
             border: TableBorder.all(width: 1.0),
             children: [
               TableRow(children: [
-                buildHeaderTableCell('Employee ID #1'),
-                buildHeaderTableCell('Employee ID #2'),
+                buildHeaderTableCell('Emp ID #1'),
+                buildHeaderTableCell('Emp ID #2'),
                 buildHeaderTableCell('Project ID'),
                 buildHeaderTableCell('Days worked'),
               ]),
@@ -146,6 +146,7 @@ class _TableLayoutState extends State<TableLayout> {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           text,
+          textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -161,6 +162,7 @@ class _TableLayoutState extends State<TableLayout> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               text,
+              textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20.0),
             )));
   }
